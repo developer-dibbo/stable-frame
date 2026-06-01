@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stable Frame - Photo Framing Studio</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Add premium frames to your photos online. Zoom, drag, and reposition with ease, then export in high-quality PNG, JPEG, or WebP formats.">
+  <meta name="author" content="Developer Dibbo">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <!-- Font Awesome for premium icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-container">
+      <img src="Assets/Stable Frame logo.png" alt="Stable Frame Logo" class="brand-logo">
+    </div>
+  </header>
+
+  <!-- Main Body Layout -->
+  <main class="app-layout">
+    
+    <!-- Sidebar Control Panel -->
+    <aside class="sidebar">
+      
+      <!-- Upload Artwork Section -->
+      <div class="sidebar-card upload-card">
+        <h2 class="section-title"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Artwork</h2>
+        <div class="drag-drop-area" id="drop-zone">
+          <input type="file" id="file-input" accept="image/*" class="file-input-hidden">
+          <div class="upload-prompt">
+            <i class="fa-regular fa-image upload-icon"></i>
+            <p class="upload-text-primary">Drag & drop your photo</p>
+            <p class="upload-text-secondary">or <span class="browse-link">browse files</span></p>
+            <p class="upload-text-formats">Supports PNG, JPG, WEBP</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Choose Frame Section -->
+      <div class="sidebar-card frame-card">
+        <h2 class="section-title"><i class="fa-solid fa-crop-simple"></i> Choose Frame</h2>
+        <div class="frame-selector-grid">
+          
+          <button class="frame-option active" data-frame="none">
+            <div class="frame-preview frame-prev-none"></div>
+            <span>No Frame</span>
+          </button>
+          
+          <button class="frame-option" data-frame="classic">
+            <div class="frame-preview frame-prev-classic"></div>
+            <span>Classic Walnut</span>
+          </button>
+          
+          <button class="frame-option" data-frame="obsidian">
+            <div class="frame-preview frame-prev-obsidian"></div>
+            <span>Modern Obsidian</span>
+          </button>
+          
+          <button class="frame-option" data-frame="gold">
+            <div class="frame-preview frame-prev-gold"></div>
+            <span>Elegant Gold</span>
+          </button>
+          
+          <button class="frame-option" data-frame="minimalist">
+            <div class="frame-preview frame-prev-minimalist"></div>
+            <span>Minimalist Gallery</span>
+          </button>
+          
+          <button class="frame-option" data-frame="brand">
+            <div class="frame-preview frame-prev-brand"></div>
+            <span>Stable Teal</span>
+          </button>
+
+          <button class="frame-option" data-frame="polaroid">
+            <div class="frame-preview frame-prev-polaroid"></div>
+            <span>Retro Polaroid</span>
+          </button>
+          
+        </div>
+      </div>
+
+      <!-- Adjustments Section -->
+      <div class="sidebar-card adjustments-card">
+        <h2 class="section-title"><i class="fa-solid fa-sliders"></i> Adjustments</h2>
+        
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Photo Zoom</span>
+            <span class="slider-value" id="zoom-value">1.0x</span>
+          </div>
+          <div class="slider-container">
+            <button class="zoom-btn" id="zoom-out-btn"><i class="fa-solid fa-minus"></i></button>
+            <input type="range" id="zoom-slider" min="0.1" max="5.0" step="0.01" value="1.0">
+            <button class="zoom-btn" id="zoom-in-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Photo Opacity</span>
+            <span class="slider-value" id="opacity-value">100%</span>
+          </div>
+          <div class="slider-container">
+            <input type="range" id="opacity-slider" min="0" max="100" step="1" value="100">
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Interaction Information -->
+      <div class="sidebar-card interaction-info-card">
+        <h2 class="section-title"><i class="fa-solid fa-hand"></i> Canvas Interaction</h2>
+        <ul class="interaction-list">
+          <li>
+            <div class="interaction-icon-wrapper"><i class="fa-solid fa-computer-mouse"></i></div>
+            <div class="interaction-desc">
+              <strong>Scroll over canvas</strong>
+              <span>Zoom in or out of the photo</span>
+            </div>
+          </li>
+          <li>
+            <div class="interaction-icon-wrapper"><i class="fa-solid fa-arrows-up-down-left-right"></i></div>
+            <div class="interaction-desc">
+              <strong>Drag over canvas</strong>
+              <span>Reposition your photo inside the frame</span>
+            </div>
+          </li>
+          <li>
+            <div class="interaction-icon-wrapper"><i class="fa-solid fa-rotate-left"></i></div>
+            <div class="interaction-desc">
+              <strong>Double-click canvas</strong>
+              <span>Reset position and zoom back to default</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Export Settings Section -->
+      <div class="sidebar-card export-card">
+        <h2 class="section-title"><i class="fa-solid fa-download"></i> Export Artwork</h2>
+        <div class="export-format-selector">
+          <label class="format-option">
+            <input type="radio" name="export-format" value="png" checked>
+            <span class="format-badge">PNG</span>
+          </label>
+          <label class="format-option">
+            <input type="radio" name="export-format" value="jpeg">
+            <span class="format-badge">JPEG</span>
+          </label>
+          <label class="format-option">
+            <input type="radio" name="export-format" value="webp">
+            <span class="format-badge">WEBP</span>
+          </label>
+        </div>
+        
+        <button id="export-btn" class="btn-primary" disabled>
+          <i class="fa-solid fa-file-export"></i> Download Framed Photo
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Canvas Workspace Column -->
+    <section class="canvas-workspace">
+      <div class="canvas-container-outer">
+        <div class="canvas-wrapper" id="canvas-wrapper">
+          <canvas id="editor-canvas"></canvas>
+          
+          <!-- Empty State/Placeholder -->
+          <div class="canvas-placeholder" id="placeholder-view">
+            <div class="placeholder-content">
+              <div class="glowing-circle">
+                <i class="fa-regular fa-images placeholder-main-icon"></i>
+              </div>
+              <h3 class="placeholder-title">Framing Studio Canvas</h3>
+              <p class="placeholder-text">Upload a photo from the sidebar control panel to begin framing. Customize borders, zoom, position, and export in full high-resolution.</p>
+              <button class="btn-secondary" id="secondary-upload-btn">
+                <i class="fa-solid fa-plus"></i> Select a Photo
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas Active Loading/Controls Overlay (Subtle HUD) -->
+          <div class="canvas-hud hidden" id="canvas-hud">
+            <div class="hud-item"><i class="fa-solid fa-expand"></i> <span id="hud-zoom">1.0x</span></div>
+            <button class="hud-btn" id="hud-reset-btn" title="Reset Image Position"><i class="fa-solid fa-arrows-to-dot"></i> Reset</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p class="copyright-text">
+        &copy; 2026 <span class="brand-highlight">Stable Frame</span>. All rights reserved. | Developed by <span class="developer-highlight">Developer Dibbo</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- App JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
